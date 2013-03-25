@@ -3,17 +3,19 @@
 #include <stdio.h>
 
 using namespace std;
-void startHere();
+bool startHere();
 void dispHelp();
 void signIn();
 void signOut();
+void signAllOut();
 
 int main () {
-	startHere();
+	while (1)
+		if (startHere()) return 0;
 	return 1;
 }
 
-void startHere() {
+bool startHere() {
 	string mode;
 	string name;
 	cout << ": ";
@@ -23,17 +25,22 @@ void startHere() {
 	{
 		name[i] = tolower(name[i]);
 	}
-	cout << mode << endl;
-	cout << name << endl;
+	cout << endl;
 	switch (tolower(mode[0])) {
-		case 'h': dispHelp(); break;
-		case 'e': signIn(/**/); break;
-		case 'l': signOut(/**/); break;
+		//case 'h': dispHelp(); break;
+		case 'i': signIn(/**/); break;
+		case 'o': signOut(/**/); break;
+		case 'e': signAllOut(); return true; break;
+		default:  dispHelp(); break;
 	}
+	return false;
 }
 
 void dispHelp() {
-	throw 1;
+	cout << "Sign In: i name" << endl;
+	cout << "Sign Out: o name [work_peformed]" << endl;
+	cout << "Alias: a record_name alias_name" << endl;
+	cout << "Exit: e password" << endl;
 }
 
 void signIn() {
@@ -41,5 +48,9 @@ void signIn() {
 }
 
 void signOut() {
+	throw 1;
+}
+
+void signAllOut() {
 	throw 1;
 }
