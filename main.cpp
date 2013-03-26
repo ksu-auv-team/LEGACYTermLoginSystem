@@ -2,17 +2,23 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <time.h>
+#include <vector>
 
 using namespace std;
-bool startHere();
+
 void dispHelp();
 void signIn();
 void signOut();
 //void signAllOut();
+bool isIn(string name);
+
 //string getAlias(string name);
+bool startHere();
+vector<string> inList;
 
 
 int main () {
+	cout << "\033[2J";
 	while (1)
 		if (startHere()) return 0;
 	return 1;
@@ -20,13 +26,14 @@ int main () {
 
 bool startHere() {
 	string mode;
-	cout << ": ";
+	cout << "Ready: ";
 	cin >> mode;
-	
+
 	//cout << endl;
 	switch (tolower(mode[0])) {
 		case 'i': signIn(); break;
 		case 'o': signOut(); break;
+		//case 'l': listIn(); break;
 		//case 'e': signAllOut(); return true; break;
 		default:  dispHelp(); break;
 	}
@@ -35,7 +42,7 @@ bool startHere() {
 
 void dispHelp() {
 	cout << "Sign In: i name" << endl;
-	cout << "Sign Out: o name [work_peformed]" << endl;
+	cout << "Sign Out: o name work_peformed" << endl;
 	//cout << "Alias: a record_name alias_name" << endl;
 	//cout << "Exit: e password" << endl;
 }
@@ -49,6 +56,12 @@ void signIn() {
 		name[i] = tolower(name[i]);
 	}
 	//name = getAlias(name);
+	if (isIn(name)) {
+		cout << "\033[;31m" << name << " is already signed in" << "\033[0m" << endl;
+		return;
+	}
+	inList.push_back(name);
+
 
 	time_t rawtime;
 	struct tm * timeinfo;
@@ -71,7 +84,17 @@ void signOut() {
 		name[i] = tolower(name[i]);
 	}
 	//name = getAlias(name);
-	cout << name << " has logged out at " /*<< time*/ << " spending " /*<< timeSpent*/ << " minutes." << endl;
+
+	time_t rawtime;
+	struct tm * timeinfo;
+	char buffer [80];
+
+	time (&rawtime);
+	timeinfo = localtime (&rawtime);
+
+	strftime (buffer,80,"%Y-%m-%d@%R",timeinfo);
+
+	cout << name << " has logged out at " << buffer << " spending " /*<< timeSpent*/ << " minutes." << endl;
 }
 
 /*void signAllOut() {
@@ -87,3 +110,11 @@ void signOut() {
 /*string getAlias(string name) {
 	return name;
 }*/
+
+bool isIn(string name) {
+	for(int i=0; i < inList.size(); i++)
+		if (inList[i].compare(name) == 0)
+			return true;
+	return false;
+
+}
