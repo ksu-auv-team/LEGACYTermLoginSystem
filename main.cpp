@@ -83,7 +83,7 @@ void signIn() {
 	myfile << buffer << ",";
 	myfile.close();
 
-	cout << name << " signed in on " << buffer << "." << endl;
+	cout << "\033[;36m" << name << " signed in on " << buffer << ".\033[0m" << endl;
 }
 
 void signOut() {
@@ -128,7 +128,7 @@ void signOut() {
 	myfile << buffer << "," << minIn << "," << work << endl;
 	myfile.close();
 
-	cout << name << " has logged out at " << buffer << " spending " << minIn << " minutes." << endl;
+	cout << "\033[;36m" << name << " has logged out at " << buffer << " spending " << minIn << " minutes.\033[0m" << endl;
 
 
 }
