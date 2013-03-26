@@ -26,7 +26,7 @@ int main () {
 
 bool startHere() {
 	string mode;
-	cout << "Ready: ";
+	cout << "\033[;32mReady: \033[0m";
 	cin >> mode;
 
 	//cout << endl;
@@ -41,8 +41,8 @@ bool startHere() {
 }
 
 void dispHelp() {
-	cout << "Sign In: i name" << endl;
-	cout << "Sign Out: o name work_peformed" << endl;
+	cout << "\033[0;33mSign In: i name" << endl;
+	cout << "Sign Out: o name work_peformed\033[0m" << endl;
 	//cout << "Alias: a record_name alias_name" << endl;
 	//cout << "Exit: e password" << endl;
 }
@@ -84,6 +84,13 @@ void signOut() {
 		name[i] = tolower(name[i]);
 	}
 	//name = getAlias(name);
+	if (!isIn(name)) {
+		cout << "\033[;31m" << name << " is already signed out" << "\033[0m" << endl;
+		return;
+	}
+	for(int i=0; i < inList.size(); i++)
+		if (inList[i].compare(name) == 0)
+			inList.erase(inList.begin()+i);
 
 	time_t rawtime;
 	struct tm * timeinfo;
