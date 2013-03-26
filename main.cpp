@@ -27,6 +27,8 @@ int main () {
 }
 
 bool startHere() {
+	dispHelp();
+	cout << endl;
 	string mode;
 	cout << "\033[;32mReady: \033[0m";
 	cin >> mode;
@@ -37,7 +39,6 @@ bool startHere() {
 		case 'o': signOut(); break;
 		//case 'l': listIn(); break;
 		//case 'e': signAllOut(); return true; break;
-		default:  dispHelp(); break;
 	}
 	return false;
 }
@@ -52,7 +53,6 @@ void dispHelp() {
 void signIn() {
 	string name;
 	cin >> name;
-	cout << endl;
 	const int length = name.length();
 	for(int i=0; i < length; i++)
 	{
@@ -90,7 +90,6 @@ void signOut() {
 	string name, work;
 	cin >> name;
 	cin >> work;
-	cout << endl;
 	const int length = name.length();
 	for(int i=0; i < length; i++)
 	{
