@@ -15,6 +15,7 @@ bool isIn(string name);
 //string getAlias(string name);
 bool startHere();
 vector<string> inList;
+vector<time_t> inTime;
 
 
 int main () {
@@ -50,6 +51,7 @@ void dispHelp() {
 void signIn() {
 	string name;
 	cin >> name;
+	cout << endl;
 	const int length = name.length();
 	for(int i=0; i < length; i++)
 	{
@@ -72,12 +74,16 @@ void signIn() {
 
 	strftime (buffer,80,"%Y-%m-%d@%R",timeinfo);
 
+	inTime.push_back(rawtime);
+
 	cout << name << " signed in on " << buffer << "." << endl;
 }
 
 void signOut() {
-	string name;
+	string name, work;
 	cin >> name;
+	cin >> work;
+	cout << endl;
 	const int length = name.length();
 	for(int i=0; i < length; i++)
 	{
@@ -88,9 +94,13 @@ void signOut() {
 		cout << "\033[;31m" << name << " is already signed out" << "\033[0m" << endl;
 		return;
 	}
+
+	int listPos = 0;
 	for(int i=0; i < inList.size(); i++)
-		if (inList[i].compare(name) == 0)
+		if (inList[i].compare(name) == 0) {
 			inList.erase(inList.begin()+i);
+			listPos = i;
+		}
 
 	time_t rawtime;
 	struct tm * timeinfo;
@@ -101,7 +111,13 @@ void signOut() {
 
 	strftime (buffer,80,"%Y-%m-%d@%R",timeinfo);
 
-	cout << name << " has logged out at " << buffer << " spending " /*<< timeSpent*/ << " minutes." << endl;
+	int minIn = difftime(rawtime, inTime[listPos]) / 60;
+	minIn++;
+
+	cout << name << " has logged out at " << buffer << " spending " << minIn << " minutes." << endl;
+
+	inTime.erase(inTime.begin()+listPos);
+
 }
 
 /*void signAllOut() {
