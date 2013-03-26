@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -76,6 +77,12 @@ void signIn() {
 
 	inTime.push_back(rawtime);
 
+	ofstream myfile;
+	string fname = name + ".timelog";
+	myfile.open(fname.c_str(), ios::app | ios::out);
+	myfile << buffer << ",";
+	myfile.close();
+
 	cout << name << " signed in on " << buffer << "." << endl;
 }
 
@@ -112,11 +119,18 @@ void signOut() {
 	strftime (buffer,80,"%Y-%m-%d@%R",timeinfo);
 
 	int minIn = difftime(rawtime, inTime[listPos]) / 60;
+	inTime.erase(inTime.begin()+listPos);
+
 	minIn++;
+
+	ofstream myfile;
+	string fname = name + ".timelog";
+	myfile.open(fname.c_str(), ios::app | ios::out);
+	myfile << buffer << "," << minIn << "," << work << endl;
+	myfile.close();
 
 	cout << name << " has logged out at " << buffer << " spending " << minIn << " minutes." << endl;
 
-	inTime.erase(inTime.begin()+listPos);
 
 }
 
