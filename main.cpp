@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctype.h>
 #include <stdio.h>
+#include <time.h>
 
 using namespace std;
 bool startHere();
@@ -48,7 +49,17 @@ void signIn() {
 		name[i] = tolower(name[i]);
 	}
 	//name = getAlias(name);
-	cout << name << " has logged in at " /*<< time*/ << "." << endl;
+
+	time_t rawtime;
+	struct tm * timeinfo;
+	char buffer [80];
+
+	time (&rawtime);
+	timeinfo = localtime (&rawtime);
+
+	strftime (buffer,80,"%Y-%m-%d@%R",timeinfo);
+
+	cout << name << " signed in on " << buffer << "." << endl;
 }
 
 void signOut() {
