@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <ctype.h>
 #include <stdio.h>
 #include <time.h>
@@ -124,8 +125,13 @@ void signOut() {
 
 	ofstream myfile;
 	string fname = name + ".timelog";
+
+	double hoursIn= ((double)minIn/60.0);
+
 	myfile.open(fname.c_str(), ios::app | ios::out);
-	myfile << buffer << "," << minIn << "," << work << endl;
+	myfile << buffer << "," << minIn << "," ;
+	myfile << hoursIn << "," << setprecision(2) << fixed << work ;
+	myfile << endl;
 	myfile.close();
 
 	cout << "\033[;36m" << name << " has logged out at " << buffer << " spending " << minIn << " minutes.\033[0m" << endl;
