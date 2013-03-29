@@ -87,6 +87,7 @@ void signIn() {
 
 	cout << "\033[;36m" << name << " signed in on " << buffer << ".\033[0m" << endl;
 	
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
 void signOut() {
