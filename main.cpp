@@ -5,7 +5,8 @@
 #include <time.h>
 #include <vector>
 #include <fstream>
-#include <limits> 
+#include <limits>
+#include <stdexcept> 
 
 using namespace std;
 
@@ -35,12 +36,15 @@ bool startHere() {
 	cout << "\033[;32mReady: \033[0m";
 	cin >> mode;
 
-	//cout << endl;
-	switch (tolower(mode[0])) {
-		case 'i': signIn(); break;
-		case 'o': signOut(); break;
-		//case 'l': listIn(); break;
-		//case 'e': signAllOut(); return true; break;
+	try {
+		switch (tolower(mode[0])) {
+			case 'i': signIn(); break;
+			case 'o': signOut(); break;
+			//case 'l': listIn(); break;
+			//case 'e': signAllOut(); return true; break;
+		}
+	} catch (const out_of_range& oor) {
+		cout << "\033[;31mError\033[0m" << endl;
 	}
 	return false;
 }
@@ -94,10 +98,10 @@ void signOut() {
 	string name, work;
 	char cwork[256];
 	cin >> name;
-	//cin >> work;
+	cin >> work;
 	cin.getline(cwork, 256);
-	work = cwork;
-	work = work.substr(1);
+	work += cwork;
+	//work = work.substr(1);
 	const int length = name.length();
 	for(int i=0; i < length; i++)
 	{
@@ -141,7 +145,7 @@ void signOut() {
 	myfile << endl;
 	myfile.close();
 
-	cout << "\033[;36m" << name << " has logged out at " << buffer << " spending " << minIn << " minutes.\033[0m" << endl;
+	cout << "\033[;36m" << name << " has logged out at " << buffer << " spending " << minIn << " minutes.\033[0m " << work << endl;
 
 
 }
