@@ -5,6 +5,7 @@
 #include <time.h>
 #include <vector>
 #include <fstream>
+#include <limits> 
 
 using namespace std;
 
@@ -85,12 +86,17 @@ void signIn() {
 	myfile.close();
 
 	cout << "\033[;36m" << name << " signed in on " << buffer << ".\033[0m" << endl;
+	
 }
 
 void signOut() {
 	string name, work;
+	char cwork[256];
 	cin >> name;
-	cin >> work;
+	//cin >> work;
+	cin.getline(cwork, 256);
+	work = cwork;
+	work = work.substr(1);
 	const int length = name.length();
 	for(int i=0; i < length; i++)
 	{
