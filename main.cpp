@@ -30,7 +30,7 @@ using namespace std;
 void dispHelp();
 void signIn();
 void signOut();
-//void signAllOut();
+void listIn();
 bool isIn(string name);
 
 //string getAlias(string name);
@@ -57,7 +57,7 @@ bool startHere() {
 		switch (tolower(mode[0])) {
 			case 'i': signIn(); break;
 			case 'o': signOut(); break;
-			//case 'l': listIn(); break;
+			case 'l': listIn(); break;
 			//case 'e': signAllOut(); return true; break;
 		}
 	} catch (const out_of_range& oor) {
@@ -68,7 +68,8 @@ bool startHere() {
 
 void dispHelp() {
 	cout << "\033[0;33mSign In: i name" << endl;
-	cout << "Sign Out: o name work_peformed\033[0m" << endl;
+	cout << "Sign Out: o name work_peformed" << endl;
+	cout << "List Users In: l\033[0m" << endl;
 	//cout << "Alias: a record_name alias_name" << endl;
 	//cout << "Exit: e password" << endl;
 }
@@ -188,3 +189,14 @@ bool isIn(string name) {
 	return false;
 
 }
+
+void listIn() {
+	if (inList.size() == 0)
+		cout << "\033[;31mLab is empty.\033[0m" << endl;
+	cout << "\033[;36m";
+	for(int i=0; i < inList.size(); i++)
+		cout << inList[i] << endl;
+	cout << "\033[0m" << endl;
+}
+
+
