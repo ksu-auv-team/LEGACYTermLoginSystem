@@ -68,13 +68,14 @@ bool startHere() {
             default: dispHelp(); break;
         }
     } catch (const out_of_range& oor) {
-        cout << "\033[;31mError\033[0m" << endl;
+        printlnError("Error");
     }
     return false;
 }
 
 void dispHelp() {
-    cout << "\033[0;33mSign In: i name" << endl;
+    cout << "\033[0;33m";
+    cout << "Sign In: i name" << endl;
     cout << "Sign Out: o name work_peformed" << endl;
     cout << "List Users In: l" << endl;
     cout << "Get Parking Pass: p g last_digit name" << endl;
@@ -92,7 +93,7 @@ void signIn() {
     }
     //name = getAlias(name);
     if (isIn(name)) {
-        cout << "\033[;31m" << name << " is already signed in" << "\033[0m" << endl;
+        printlnError(name + " is already signed in");
         return;
     }
     inList.push_back(name);
@@ -115,7 +116,7 @@ void signIn() {
     myfile << buffer << ",";
     myfile.close();
 
-    cout << "\033[;36m" << name << " signed in on " << buffer << ".\033[0m" << endl;
+    printlnBlue(name + " signed in on " + buffer);
     
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
@@ -135,11 +136,11 @@ void signOut() {
     }
     //name = getAlias(name);
     if (!isIn(name)) {
-        cout << "\033[;31m" << name << " is already signed out" << "\033[0m" << endl;
+        printlnError(name + " is already signed out");
         return;
     }
     if (isParking(name)) {
-        cout << "\033[;31m" << "You must return the pass first!" << "\033[0m" << endl;
+        printlnError("You must return the pass first!");
         return;
     }
 
@@ -175,7 +176,7 @@ void signOut() {
     myfile << endl;
     myfile.close();
 
-    cout << "\033[;36m" << name << " has logged out at " << buffer << " spending " << minIn << " minutes.\033[0m " << work << endl;
+    printlnBlue(name + " has logged out at " + buffer + " spending " + to_string(minIn) + " minutes. Working on " + work);
 }
 
 bool isIn(string name) {
@@ -186,8 +187,10 @@ bool isIn(string name) {
 }
 
 void listIn() {
-    if (inList.size() == 0)
-        cout << "\033[;31mLab is empty.\033[0m" << endl;
+    if (inList.size() == 0) {
+        printlnError("Lab is empty.");
+        return;
+    }
     cout << "\033[;36m";
     for(int i=0; i < inList.size(); i++)
         cout << inList[i] << endl;
@@ -204,12 +207,12 @@ void parking() {
     try {
         number = std::stoi(numberS);
     } catch (...) {
-        cout << "\033[;31mCan not read pass number\033[0m" << endl;
+        printlnError("Can not read pass number");
         return;
     }
 
     if (!(number == 0 || number == 7 || number == 8 || number == 9)) {
-        cout << "\033[;31mInvalid pass number\033[0m" << endl;
+        printlnError("Invalid pass number");
         return;
     }
 
@@ -221,7 +224,7 @@ void parking() {
     }
     //name = getAlias(name);
     if (!isIn(name)) {
-        cout << "\033[;31m"<< name << ", you must be signed in to use parking passes!\033[0m" << endl;
+        printlnError(name + ", you must be signed in to use parking passes!");
         return;
     }
 
@@ -239,11 +242,11 @@ void parking() {
             printlnError("Pass is already out.");
             return;
         }
-        cout << "\033[;36m" << name << " took a parking pass on " << buffer << ".\033[0m" << endl;
+        printlnBlue(name + " took a parking pass on " + buffer);
         parkingList.push_back(name);
         passList[number] = true;
     } else if (tolower(action[0]) == 'r') {
-        cout << "\033[;36m" << name << " returned a parking pass on " << buffer << ".\033[0m" << endl;
+        printlnBlue(name + " returned a parking pass on " + buffer);
         int listPos = 0;
         for(int i=0; i < parkingList.size(); i++)
             if (parkingList[i].compare(name) == 0) {
@@ -264,7 +267,7 @@ bool isParking(string name) {
 }
 
 void printlnError(string msg) {
-    cout << "\a\033[;31m" << msg << "\033[0m" << endl;
+    cout << "\a\a\a\033[;31m" << msg << "\033[0m" << endl;
 }
 
 void printlnBlue(string msg) {
