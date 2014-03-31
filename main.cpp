@@ -253,7 +253,7 @@ void parking() {
                 parkingList.erase(parkingList.begin()+i);
                 listPos = i;
             }
-        passList[number] == false;
+        passList[number] = false;
     } else {
         dispHelp();
     }
